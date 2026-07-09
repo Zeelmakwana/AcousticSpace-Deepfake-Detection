@@ -1,7 +1,10 @@
 from fastapi import APIRouter
 from fastapi import UploadFile, File
-import os
-import shutil
+from app.services.file_service import save_uploaded_file
+from app.services.predictor import predict_audio
+from app.utils.logger import logger
+from app.schemas.response import UploadResponse, PredictionResponse
+from fastapi import HTTPException
 
 router = APIRouter()
 
@@ -11,20 +14,39 @@ def home():
 
 @router.get("/health")
 def health():
-    return {"status": "healthy"}
+    return {
+        "status": "healthy",
+        "service": "AcousticSpace API",
+        "version": "1.0.0"
+    }
     
-UPLOAD_DIR = "uploads"
-os.makedirs(UPLOAD_DIR, exist_ok=True)
-    
-@router.post("/upload")
-async def upload_audio(file: UploadFile = File(...)):
-    file_path = os.path.join(UPLOAD_DIR, file.filename)
+@router.post("/upload", response_model=UploadResponse)
+async def upload(file: UploadFile = File(...)):
+  
+    logger.info(f"Uploaded file: {file.filename}")
 
-    with open(file_path, "wb") as buffer:
-        shutil.copyfileobj(file.file, buffer)
+
+    path = save_uploaded_file(file)
 
     return {
-        "message": "File uploaded successfully",
+        "message": "Upload Successful",
         "filename": file.filename,
-        "path": file_path
+        "path": str(path)
     }
+    
+@router.post("/predict", response_model=PredictionResponse)
+async def predict(file: UploadFile = File(...)):
+
+    try:
+
+        path = save_uploaded_file(file)
+
+        result = predict_audio(str(path))
+
+        return result
+
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail=str(e)
+        )
