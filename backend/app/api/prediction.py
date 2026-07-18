@@ -12,15 +12,12 @@ router = APIRouter(tags=["Prediction"])
     description="Predict whether the uploaded audio is real or deepfake."
 )
 async def predict(file: UploadFile = File(...)):
-    try:
-        path = save_uploaded_file(file)
-        result = predict_audio(str(path))
+    path = save_uploaded_file(file)
 
-        return PredictionResponse(
-            success=True,
-            message="Prediction completed",
-            data=result
-        )
+    result = predict_audio(str(path))
 
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+    return PredictionResponse(
+        success=True,
+        message="Prediction completed",
+        data=result
+    )
