@@ -5,7 +5,12 @@ from app.services.predictor import predict_audio
 
 router = APIRouter(tags=["Prediction"])
 
-@router.post("/predict", response_model=PredictionResponse)
+@router.post(
+    "/predict",
+    response_model=PredictionResponse,
+    summary="Predict audio authenticity",
+    description="Predict whether the uploaded audio is real or deepfake."
+)
 async def predict(file: UploadFile = File(...)):
     try:
         path = save_uploaded_file(file)

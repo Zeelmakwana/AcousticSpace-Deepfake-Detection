@@ -8,7 +8,11 @@ def home():
         "message": "AcousticSpace Backend is Running"
     }
 
-@router.get("/health")
+@router.get(
+    "/health",
+    summary="Health Check",
+    description="Check whether the backend service is running."
+)
 def health():
     return {
         "status": "healthy",

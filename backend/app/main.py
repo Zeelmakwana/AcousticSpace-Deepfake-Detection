@@ -4,9 +4,16 @@ from app.api.upload import router as upload_router
 from app.api.prediction import router as prediction_router
 from fastapi.middleware.cors import CORSMiddleware
 
+from app.core.config import (
+    API_TITLE,
+    API_VERSION,
+    API_DESCRIPTION
+)
+
 app = FastAPI(
-    title="AcousticSpace API",
-    version="1.0.0"
+    title=API_TITLE,
+    version=API_VERSION,
+    description=API_DESCRIPTION
 )
 
 app.include_router(health_router, prefix="/api/v1")

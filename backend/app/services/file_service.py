@@ -1,10 +1,13 @@
 import shutil
 from pathlib import Path
 from fastapi import HTTPException
+import uuid
 
-from app.core.config import UPLOAD_FOLDER
-
-ALLOWED_EXTENSIONS = {".wav", ".mp3", ".flac", ".ogg", ".m4a"}
+from app.core.config import (
+    UPLOAD_FOLDER,
+    ALLOWED_EXTENSIONS,
+    MAX_FILE_SIZE
+)
 
 def validate_audio(file):
     extension = Path(file.filename).suffix.lower()
@@ -17,7 +20,23 @@ def validate_audio(file):
 
 def save_uploaded_file(file):
     validate_audio(file)
-    file_path = UPLOAD_FOLDER / file.filename
+
+    # Read the uploaded file
+    contents = file.file.read()
+
+    # Check file size
+    if len(contents) > MAX_FILE_SIZE:
+        raise HTTPException(
+            status_code=400,
+            detail="File size exceeds 20 MB."
+        )
+
+    # Reset file pointer
+    file.file.seek(0)
+
+    # Save the file
+    unique_filename = f"{uuid.uuid4()}-{file.filename}"
+    file_path = UPLOAD_FOLDER / unique_filename
 
     with open(file_path, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)

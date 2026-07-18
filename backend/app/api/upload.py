@@ -5,7 +5,12 @@ from app.utils.logger import logger
 
 router = APIRouter(tags=["Upload"])
 
-@router.post("/upload", response_model=UploadResponse)
+@router.post(
+    "/upload",
+    response_model=UploadResponse,
+    summary="Upload an audio file",
+    description="Upload an audio file for deepfake detection."
+)
 async def upload(file: UploadFile = File(...)):
     logger.info(f"Uploaded file: {file.filename}")
 
