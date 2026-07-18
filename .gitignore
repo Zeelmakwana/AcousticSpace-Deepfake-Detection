@@ -10,3 +10,6 @@ processed_dataset/
 
 # Raw datasets
 datasets/
+
+*.pth
+processed_dataset/

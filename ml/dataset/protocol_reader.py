@@ -8,8 +8,6 @@ def encode_label(label):
     else:
         raise ValueError(f"Unknown label: {label}")
     
-print(encode_label("bonafide"))
-print(encode_label("spoof"))
 
 def load_protocol(protocol_path):
     samples = []
