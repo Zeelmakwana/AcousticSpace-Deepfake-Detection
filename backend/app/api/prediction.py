@@ -16,11 +16,11 @@ async def predict(file: UploadFile = File(...)):
         path = save_uploaded_file(file)
         result = predict_audio(str(path))
 
-    return PredictionResponse(
-        success=True,
-        message="Prediction completed",
-        data=result
-    )
+        return PredictionResponse(
+            success=True,
+            message="Prediction completed",
+            data=result
+        )
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
