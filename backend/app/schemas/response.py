@@ -1,11 +1,16 @@
 from pydantic import BaseModel
+from typing import Any, Optional
 
 
-class UploadResponse(BaseModel):
+class APIResponse(BaseModel):
+    success: bool
     message: str
-    filename: str
-    path: str
+    data: Optional[Any] = None
 
-class PredictionResponse(BaseModel):
-    prediction: str
-    confidence: float
+
+class UploadResponse(APIResponse):
+    pass
+
+
+class PredictionResponse(APIResponse):
+    pass

@@ -16,8 +16,11 @@ async def upload(file: UploadFile = File(...)):
 
     path = save_uploaded_file(file)
 
-    return {
-        "message": "Upload Successful",
+    return UploadResponse(
+    success=True,
+    message="Upload successful",
+    data={
         "filename": file.filename,
         "path": str(path)
     }
+)
