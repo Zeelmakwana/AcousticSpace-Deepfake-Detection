@@ -1,1 +1,22 @@
+# Dataset
 datasets/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyc
+
+# Virtual environments
+venv/
+backend/venv/
+.venv/
+
+# Environment files
+.env
+
+# Uploads (optional)
+backend/uploads/*
+!backend/uploads/.gitkeep
+
+# OS files
+.DS_Store
