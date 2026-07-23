@@ -1,0 +1,29 @@
+{
+  "name": "acousticspace-frontend",
+  "version": "1.0.0",
+  "description": "AcousticSpace — Deepfake Audio Detection via Room Impulse Response. React 18 + TypeScript SPA built with Vite.",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "lint": "eslint . --ext ts,tsx"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.24.1",
+    "wavesurfer.js": "^7.8.2",
+    "axios": "^1.7.2",
+    "recharts": "^2.12.7"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^4.3.1",
+    "typescript": "^5.5.3",
+    "vite": "^5.3.3",
+    "eslint": "^8.57.0"
+  }
+}
