@@ -4,7 +4,6 @@ import numpy as np
 import torch
 from torch.utils.data import Dataset
 
-
 class DeepfakeDataset(Dataset):
 
     def __init__(self, dataset_folder):
