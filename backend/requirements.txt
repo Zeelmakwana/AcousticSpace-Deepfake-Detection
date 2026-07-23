@@ -1,0 +1,53 @@
+# =============================================================================
+# AcousticSpace — Backend Python Dependencies
+# Python 3.11 required.
+# All versions are pinned to exact releases (==) to guarantee a reproducible
+# environment across all team members and CI runners.  [C-2, NFR-6.1]
+#
+# Install:
+#   python -m venv .venv
+#   .venv\Scripts\activate          # Windows
+#   source .venv/bin/activate       # macOS / Linux
+#   pip install -r requirements.txt
+# =============================================================================
+
+# --- Web framework -----------------------------------------------------------
+fastapi==0.111.0
+uvicorn[standard]==0.30.1       # ASGI server; [standard] includes websockets + httptools
+python-multipart==0.0.9         # Required for multipart/form-data file uploads  [FR-5.3]
+
+# --- Audio I/O and DSP -------------------------------------------------------
+librosa==0.10.2                 # Audio analysis: MFCC, mel spectrogram, HPSS, effects
+soundfile==0.12.1               # Primary audio loader (WAV/FLAC, fast)  [FR-2.1]
+numpy==1.26.4                   # Numerical array operations
+scipy==1.13.1                   # Hilbert transform for RT60 estimation  [FR-3.1]
+
+# --- Machine Learning --------------------------------------------------------
+torch==2.3.1                    # PyTorch — model training and inference  [FR-11.6, FR-11.7]
+torchaudio==2.3.1               # Audio utilities aligned with PyTorch version
+transformers==4.42.3            # Hugging Face: ASTModel, ASTFeatureExtractor  [MR-6]
+scikit-learn==1.5.0             # Evaluation metrics: accuracy, F1, ROC-AUC  [FR-11.8]
+
+# --- Authentication ----------------------------------------------------------
+python-jose[cryptography]==3.3.0  # JWT encode / decode (HS256)
+bcrypt==5.0.0                     # Password hashing — direct bcrypt (passlib 1.7.4 is incompatible with bcrypt>=4.x)
+sqlalchemy==2.0.31                # ORM for user persistence (SQLite in dev)
+
+# --- API and data handling ---------------------------------------------------
+pydantic==2.7.4                 # Request / response validation  [FR-5.6]
+python-dotenv==1.0.1            # Load .env files into environment  [NFR-6.1]
+pandas==2.2.2                   # manifest.csv read/write for training pipeline  [FR-11.2]
+matplotlib==3.9.0               # Optional: spectrogram visualisation in notebooks
+
+# --- Dataset acquisition -----------------------------------------------------
+kagglehub==0.2.9                # ASVspoof 2021 DF dataset download  [FR-11.1]
+
+# --- PDF generation ----------------------------------------------------------
+reportlab==4.2.2                # PDF report generation for analysis results
+
+# --- Security ----------------------------------------------------------------
+slowapi==0.1.9                  # Rate limiting for FastAPI (Starlette-compatible)
+python-magic==0.4.27            # MIME type detection from file magic bytes (file validation)
+
+# --- Monitoring --------------------------------------------------------------
+psutil==5.9.8                   # Cross-platform process and system metrics (CPU, memory, disk)

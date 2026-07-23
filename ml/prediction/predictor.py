@@ -14,7 +14,7 @@ def fix_feature_size(mfcc, target_frames=64):
     if current < target_frames:
         mfcc = np.pad(
             mfcc,
-            ((0, 0), (0, target_frames-current)),
+            ((0, 0), (0, target_frames - current)),
             mode="constant"
         )
     else:
@@ -22,31 +22,55 @@ def fix_feature_size(mfcc, target_frames=64):
 
     return mfcc
 
-
 model = DeepfakeCNN()
-model.load_state_dict(torch.load("deepfake_cnn.pth"))
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[2]
+MODEL_PATH = ROOT / "deepfake_cnn.pth"
+
+model.load_state_dict(
+    torch.load(MODEL_PATH, map_location=torch.device("cpu"))
+)
 model.eval()
 
-audio_path = r"E:\datasets\ASVspoof2019_LA_train\flac\LA_T_1138215.flac"
 
-audio, sr = load_audio(audio_path)
-audio = preprocess_audio(audio)
-mfcc = extract_mfcc(audio, sr)
-mfcc = fix_feature_size(mfcc)
+def predict_audio(audio_path: str):
+    audio, sr = load_audio(audio_path)
 
-feature = torch.tensor(
-    mfcc, 
-    dtype=torch.float32
-).unsqueeze(0).unsqueeze(0)
+    audio = preprocess_audio(audio)
 
-with torch.no_grad():
-    output = model(feature)
-    probability = F.softmax(output, dim=1)
-    confidence, prediction = torch.max(probability, dim=1)
+    mfcc = extract_mfcc(audio, sr)
 
-if prediction.item() == 0:
-    print("Prediction : BONAFIDE")
-else:
-    print("Prediction : SPOOF")
+    mfcc = fix_feature_size(mfcc)
 
-print(f"Confidence : {confidence.item()*100:.2f}%")
+    feature = torch.tensor(
+        mfcc,
+        dtype=torch.float32
+    ).unsqueeze(0).unsqueeze(0)
+
+    with torch.no_grad():
+        output = model(feature)
+
+        probability = F.softmax(output, dim=1)
+
+        confidence, prediction = torch.max(probability, dim=1)
+
+    label = (
+        "BONAFIDE"
+        if prediction.item() == 0
+        else "SPOOF"
+    )
+
+    return {
+        "prediction": label,
+        "confidence": round(confidence.item() * 100, 2)
+    }
+
+
+if __name__ == "__main__":
+
+    result = predict_audio(
+        r"E:\datasets\ASVspoof2019_LA_train\flac\LA_T_9877683.flac"
+    )
+
+    print(result)
