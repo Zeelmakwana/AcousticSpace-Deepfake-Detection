@@ -1,15 +1,92 @@
-# Python cache
+#############################
+# Python
+#############################
+
 __pycache__/
 *.py[cod]
+*.pyo
+*.pyd
+*.so
 
-# Virtual environment
+#############################
+# Virtual Environment
+#############################
+
 venv/
+.venv/
+env/
 
-# Processed dataset
-processed_dataset/
+#############################
+# Environment Variables
+#############################
 
-# Raw datasets
-datasets/
+.env
+backend/.env
+
+#############################
+# Logs
+#############################
+
+*.log
+logs/
+audit.log
+audit.log.*
+
+#############################
+# Database
+#############################
+
+*.db
+*.sqlite3
+
+#############################
+# ML Models
+#############################
 
 *.pth
+*.pt
+*.h5
+*.onnx
+
+#############################
+# Processed Dataset
+#############################
+
 processed_dataset/
+*.npy
+
+#############################
+# Frontend
+#############################
+
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+*.tsbuildinfo
+
+#############################
+# VS Code
+#############################
+
+.vscode/
+
+#############################
+# OS Files
+#############################
+
+.DS_Store
+Thumbs.db
+
+#############################
+# Testing
+#############################
+
+.pytest_cache/
+.coverage
+htmlcov/
+
+#############################
+# Jupyter
+#############################
+
+.ipynb_checkpoints/
